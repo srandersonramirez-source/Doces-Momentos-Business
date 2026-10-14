@@ -370,11 +370,11 @@
                         <div class="space-y-4">
                             <div class="flex items-center gap-3 text-brand-200">
                                 <i data-lucide="map-pin" class="w-5 h-5"></i>
-                                <span class="text-sm">Rua das Flores, 123 - Jardins, SP</span>
+                                <span class="text-sm">R. Raimunda Monteiro de Macedo, 18</span>
                             </div>
                             <div class="flex items-center gap-3 text-brand-200">
                                 <i data-lucide="phone" class="w-5 h-5"></i>
-                                <span class="text-sm">(11) 99999-0000</span>
+                                <span class="text-sm">(11) 91354-9654</span>
                             </div>
                             <div class="flex items-center gap-3 text-brand-200">
                                 <i data-lucide="instagram" class="w-5 h-5"></i>
@@ -523,23 +523,39 @@
             const resetBtn = document.getElementById('reset-form');
 
             form.addEventListener('submit', (e) => {
-                e.preventDefault(); // Prevent actual form submission
-                
-                // Change button text to show loading state
-                const submitBtn = form.querySelector('button[type="submit"]');
-                const originalContent = submitBtn.innerHTML;
-                submitBtn.innerHTML = '<i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i> Enviando...';
-                lucide.createIcons();
-                submitBtn.disabled = true;
+                e.preventDefault();
 
-                // Simulate API call delay
-                setTimeout(() => {
-                    form.classList.add('hidden');
-                    successMsg.classList.remove('hidden');
-                    submitBtn.innerHTML = originalContent;
-                    submitBtn.disabled = false;
-                    form.reset();
-                }, 1500);
+                // --- CONFIGURAÇÃO DO WHATSAPP ---
+                // Coloque aqui o seu número com DDI e DDD (ex: 5511999990000)
+                const phoneNumber = "5511913549654";
+
+                // Coleta dos dados do formulário
+                const name = document.getElementById('name').value;
+                const clientPhone = document.getElementById('phone').value;
+                const date = document.getElementById('date').value;
+                const type = document.getElementById('type').value;
+                const message = document.getElementById('message').value;
+
+                // Montagem da mensagem formatada
+                const text = `Olá! Gostaria de solicitar um orçamento para um bolo:
+
+*Nome:* ${name}
+*WhatsApp:* ${clientPhone}
+*Data do Evento:* ${date}
+*Tipo de Evento:* ${type}
+*Detalhes:* ${message}`;
+
+                // Codificação da mensagem para URL
+                const encodedText = encodeURIComponent(text);
+                const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedText}`;
+
+                // Abrir o WhatsApp em uma nova aba
+                window.open(whatsappUrl, '_blank');
+
+                // Mostrar mensagem de sucesso na página
+                form.classList.add('hidden');
+                successMsg.classList.remove('hidden');
+                form.reset();
             });
 
             resetBtn.addEventListener('click', () => {
